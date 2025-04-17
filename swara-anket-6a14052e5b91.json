@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "swara-anket",
+  "private_key_id": "6a14052e5b912ccc8d357cd3f5d7300f18ee7d29",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC+spXmOzSrdQEs\nm7ndK5FwAs97cVfg+FwGy1kmH8Jc0vzzr/FHoGyi6i/gZzUJNjhjr9jAMf/ebzGf\nFEN+f9d/VQfzfR8w+PLV5wFNe14badfY03FYpTrS9rvUlNC0uaUHbX0hCGVIO8Tz\nzZ2u3oT60+VOf4nPvg65WCedVRvASddJ61vstdl1XxjTMoc/Q5/xVWCBgJr+vao0\nK37IJzsgIXWnGakEfsVmaqnSphJHb2IvJUD46psXWfVdSjT/A4Yk4KmDX6hQlK9Q\nQItj59PWxjG0EQ76a2Fyqk6guEE8D5ASak2FrKRbb1c/alUqv1Tp210jsELi/k60\nk0Fto5K3AgMBAAECggEAGdBj8UQPd6xBie/Uo6dbqy1+N6garMYB8xuAyGPhNB6N\nhlFJWJhTTGRmMbrW15Xi4T+zGCVMjShBL9cW4d9dZQu2JVRJLiBtAt6f8wShsxVL\nVjsdK1JGmbszpu20KNq+h7hfCWMxDqukmBo736mYl7mqX0ttdNU1+goAZtBYDtnT\n59ka3KWH8758AXKDmL9hnV5/bTQ4YUQ1ljGyOrEyrXuQ1AdIc6dDsIMkXRzelb0k\nonz5ViN8k/qv7QyXBQPZDtmfPZeWiXNkKw3MkduepZmkdZ/SzJaouE+ZEKXZAvG9\neK0CNEr8QxyaJ/Q1tNUMM1Z7eTQHPY0R3QOaOcfAmQKBgQD1ddh5Ff+kBQwLt11Z\nI2gLX3UbRc5xB1AqJtvWW6CUCBAHYzTlcB0qWPVJ/SSEAaEI2mvMfJ/6+mYXiRs0\n0LmK8f7/oebvtu8Bi8znctKi21PyMlmsRzNNIDEg75jBFd55W7tk+4jROzNFLKxK\n3Isw12n1GxieAAeouAUHhBKG2QKBgQDG4sacyE0RQl9SihBVpiclGsSPSZYKeFdi\nzwuSxTfoPyWqIAz53EVYZo7B1mw5ojKkqCyVOEvf26SOqzT8hwbCDqlVS9sWyVlV\n6l669vMY6Nq4nAopmH/LDnbFxdDN8BBwqV3W8WICPuYHAVEhonxs5QSFooqd9W/k\nJ8TjSeeMDwKBgGb4sgBR9zVynJQJr1JmpQ4oVHNFfI40GDAmrxCkzZ9sJnVC6/zY\nZJPQT85jML9kA484OgLFwUNDajKzZMNqUHv2exf4bm3fmzJV2Ha715tUUUoIT1AT\nanUPbSy49qcBqpvUnK+HSeUkZaS+UeTx0j6CD8QwQsp9jrj7wbhecns5AoGBAIvQ\nsL9XMJaJimmEFaegfrRe9P+mQ4xovUYBN6mea4chnWDT10tvxnA26PTrwHljxSZr\n86uTQAPHbQ++3CkK431YwUHtab/DHMKBWMcnBA7m45wUVjCXvH8LVAQE5J1hvqz0\n47tPRg8+GIekLVzv1XjYJy2q7rfM6zQBoTAHrHeRAoGAL30yRNSAcfBcBLI8E/I8\nY+CsJC9tT/xCaBSsQayn0SKFnDiO7KHq6v1dEfJiR1qmY4IUd/1DzdZfzPuVaN92\nqi5uObZMvWjQAF5eVRyVGQH4FkiYMVnOOqEgcxcg8Dz5V0WIiLs/qJa2jZp3ggIY\n1U552j20YVz8JeviPGvvhPI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "swara-sheet-bot@swara-anket.iam.gserviceaccount.com",
+  "client_id": "116038987180446234777",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/swara-sheet-bot%40swara-anket.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
