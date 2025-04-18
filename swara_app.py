@@ -39,8 +39,8 @@ cols = st.columns(2)
 for i, k in enumerate(secilmemisler):
     with cols[i % 2]:
         if st.button(k, key=f"buton_{k}"):
-            st.session_state.secilenler.append(k)
-            st.experimental_rerun()
+            if k not in st.session_state.secilenler:
+                st.session_state.secilenler.append(k)
 
 st.subheader("Seçilen Sıralama:")
 st.write(st.session_state.secilenler)
