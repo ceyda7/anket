@@ -1,10 +1,12 @@
-
 import streamlit as st
 import pandas as pd
+import datetime
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 st.set_page_config(page_title="SWARA Anketi", layout="centered")
 
-st.title("📋 SWARA Temelli Kriter Önceliklendirme Anketi")
+st.title("\U0001F4CB SWARA Temelli Kriter Önceliklendirme Anketi")
 
 # --- Kriter Listesi ---
 kriterler = [
@@ -24,23 +26,17 @@ kriterler = [
     "Garanti ve Servis Sonrası Destek"
 ]
 
-st.header("1. Kriterleri Öncelik Sırasına Göre Giriniz")
-st.markdown("En önemli olanı 1. sıraya, en az önemli olanı 14. sıraya yerleştiriniz.")
+st.header("1. Kriterleri Öncelik Sırasına Göre Sürükleyerek Sıralayın")
+st.markdown("Yukarıdan aşağıya en önemli olandan en az önemli olana doğru sıralayınız. Her satırın yerini değiştirerek sıralama yapabilirsiniz.")
 
-ranked = []
-cols = st.columns(2)
+# Data editor ile sıralama
+siralama_df = pd.DataFrame({"Kriter": kriterler})
+siralama_df = st.data_editor(siralama_df, num_rows="fixed", use_container_width=True)
 
-with cols[0]:
-    for i in range(7):
-        choice = st.selectbox(f"{i+1}. Sıra", kriterler, key=f"r{i}")
-        ranked.append(choice)
-with cols[1]:
-    for i in range(7, 14):
-        choice = st.selectbox(f"{i+1}. Sıra", kriterler, key=f"r{i}")
-        ranked.append(choice)
+ranked = siralama_df["Kriter"].tolist()
 
 if len(set(ranked)) < 14:
-    st.warning("Tüm sıralamalar farklı olmalıdır. Aynı kriter birden fazla seçilemez.")
+    st.warning("Tüm sıralamalar farklı olmalıdır. Aynı kriter birden fazla kez yazılamaz.")
     st.stop()
 
 st.success("Sıralama tamamlandı!")
@@ -67,7 +63,22 @@ for i in range(13):
 comp_df = pd.DataFrame(comparisons)
 st.dataframe(comp_df)
 
-# --- Dışa Aktarma ---
-st.download_button("💾 Sonuçları CSV Olarak İndir", comp_df.to_csv(index=False).encode('utf-8'), "swarasonuclari.csv", "text/csv")
+# --- Google Sheets'e veri gönder ---
+if st.button("Gönder ve Kaydet"):
+    try:
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+        client = gspread.authorize(creds)
 
-st.info("SWARA hesaplama modülü bir sonraki aşamada entegre edilecektir.")
+        sheet = client.open("SWARA Anket Sonuçları").sheet1
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        for row in comparisons:
+            sheet.append_row([timestamp, row['Üst Kriter'], row['Alt Kriter'], row['Önem Derecesi'], row['Açıklama']])
+
+        st.success("Veriler Google Sheets'e başarıyla gönderildi. Teşekkür ederiz!")
+    except Exception as e:
+        st.error(f"Veri gönderilirken bir hata oluştu: {e}")
+
+# Not: Katılımcıya CSV indirme kaldırıldı
+st.info("Sonuçlar anket sahibine otomatik olarak iletilmektedir. SWARA hesaplama modülü bir sonraki aşamada entegre edilecektir.")
