@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 import datetime
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+import os
 
 st.set_page_config(page_title="SWARA Anketi", layout="centered")
 
@@ -75,22 +74,22 @@ for i in range(13):
 comp_df = pd.DataFrame(comparisons)
 st.dataframe(comp_df)
 
-# --- Google Sheets'e veri gönder ---
+# --- Tüm kullanıcı verilerini ortak bir Excel dosyasına kaydet ---
 if st.button("Gönder ve Kaydet"):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    comp_df.insert(0, "Zaman", timestamp)
+    excel_path = "tum_swara_sonuclari.xlsx"
+
     try:
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-        client = gspread.authorize(creds)
+        if os.path.exists(excel_path):
+            existing_df = pd.read_excel(excel_path)
+            combined_df = pd.concat([existing_df, comp_df], ignore_index=True)
+        else:
+            combined_df = comp_df
 
-        sheet = client.open("SWARA Anket Sonuçları").sheet1
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        for row in comparisons:
-            sheet.append_row([timestamp, row['Üst Kriter'], row['Alt Kriter'], row['Önem Derecesi'], row['Açıklama']])
-
-        st.success("Veriler Google Sheets'e başarıyla gönderildi. Teşekkür ederiz!")
+        combined_df.to_excel(excel_path, index=False)
+        st.success("Veriler başarıyla kaydedildi. Yöneticilere özel olarak kayıt altında tutuluyor.")
     except Exception as e:
-        st.error(f"Veri gönderilirken bir hata oluştu: {e}")
+        st.error(f"Veri kaydedilirken bir hata oluştu: {e}")
 
-st.info("Sonuçlar anket sahibine otomatik olarak iletilmektedir. SWARA hesaplama modülü bir sonraki aşamada entegre edilecektir.")
-
+st.info("Bu anket sonuçları yalnızca yöneticinin erişebileceği bir Excel dosyasına kaydedilmektedir.")
