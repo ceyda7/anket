@@ -6,7 +6,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 st.set_page_config(page_title="SWARA Anketi", layout="centered")
 
-st.title("\U0001F4CB SWARA Temelli Kriter Önceliklendirme Anketi")
+st.title("📋 SWARA Temelli Kriter Önceliklendirme Anketi")
 
 # --- Kriter Listesi ---
 kriterler = [
@@ -26,20 +26,32 @@ kriterler = [
     "Garanti ve Servis Sonrası Destek"
 ]
 
-st.header("1. Kriterleri Öncelik Sırasına Göre Sürükleyerek Sıralayın")
-st.markdown("Yukarıdan aşağıya en önemli olandan en az önemli olana doğru sıralayınız. Her satırın yerini değiştirerek sıralama yapabilirsiniz.")
+st.header("1. Kriterleri Öncelik Sırasına Göre Seçiniz")
+st.markdown("14 kriteri sırayla seçiniz. Her seçim yapıldığında, kriter alt listeye eklenir. Tüm kriterler tamamlandığında ikinci aşamaya geçilir.")
 
-# Data editor ile sıralama
-siralama_df = pd.DataFrame({"Kriter": kriterler})
-siralama_df = st.data_editor(siralama_df, num_rows="fixed", use_container_width=True)
+if "secilenler" not in st.session_state:
+    st.session_state.secilenler = []
 
-ranked = siralama_df["Kriter"].tolist()
+secilmemisler = [k for k in kriterler if k not in st.session_state.secilenler]
 
-if len(set(ranked)) < 14:
-    st.warning("Tüm sıralamalar farklı olmalıdır. Aynı kriter birden fazla kez yazılamaz.")
+st.subheader("Seçilebilir Kriterler:")
+cols = st.columns(2)
+for i, k in enumerate(secilmemisler):
+    with cols[i % 2]:
+        if st.button(k, key=f"buton_{k}"):
+            st.session_state.secilenler.append(k)
+            st.experimental_rerun()
+
+st.subheader("Seçilen Sıralama:")
+st.write(st.session_state.secilenler)
+
+if len(st.session_state.secilenler) < 14:
+    st.warning(f"Sıralama tamamlanmadı. Lütfen {14 - len(st.session_state.secilenler)} kriter daha seçiniz.")
     st.stop()
 
-st.success("Sıralama tamamlandı!")
+ranked = st.session_state.secilenler
+
+st.success("Tüm kriterler sıralandı!")
 st.dataframe(pd.DataFrame({"Sıra": list(range(1, 15)), "Kriter": ranked}))
 
 # --- Karşılaştırmalar ---
@@ -80,5 +92,5 @@ if st.button("Gönder ve Kaydet"):
     except Exception as e:
         st.error(f"Veri gönderilirken bir hata oluştu: {e}")
 
-# Not: Katılımcıya CSV indirme kaldırıldı
 st.info("Sonuçlar anket sahibine otomatik olarak iletilmektedir. SWARA hesaplama modülü bir sonraki aşamada entegre edilecektir.")
+
